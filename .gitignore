@@ -1,0 +1,39 @@
+# Python
+
+**pycache**/
+\*.py\[cod]
+\*.env
+\*.venv
+.env
+.venv
+\*.sqlite3
+instance/
+
+# Node
+
+node\_modules/
+\*.log
+
+# VS Code
+
+.vscode/
+
+# macOS
+
+.DS\_Store
+
+# Branding outputs
+
+branding/*.xcf
+branding/*.psd
+branding/*.ai
+branding/*.svg
+
+# Logs
+
+logs/\*.bak
+
+# OS generated
+
+Thumbs.db
+Desktop.ini
