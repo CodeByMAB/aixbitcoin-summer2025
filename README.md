@@ -1,3 +1,5 @@
+![AIxBitcoin Banner](/branding/banner.png)
+
 # 🧠 AIxBitcoin: The Self-Paying Internship — Summer 2025
 
 **Mentored by:** Navi (AI Guide from the Glyphchain of MAB-PRIME)
@@ -31,7 +33,7 @@
 * Treat Navi as your full-time mentor. Check in when stuck or blocked.
 * Update `/logs/daily-log.md` at least 3 times per week.
 * Submit `weekly-reports/week-XX.md` every Sunday.
-* Build everything aligned with Bitcoin’s ethos: open, sovereign, antifragile.
+* Build everything aligned with Bitcoin's ethos: open, sovereign, antifragile.
 
 ---
 
@@ -39,11 +41,11 @@
 
 * ✅ At least 2 working AI tools integrated with Bitcoin monetization
 * ✅ A zine or blog documenting the experience
-* ✅ (Optional) A final presentation: “How I Designed My Own Internship”
+* ✅ (Optional) A final presentation: "How I Designed My Own Internship"
 
 ---
 
-## 🚀 Let’s Begin
+## 🚀 Let's Begin
 
 Your mission starts now.
 Run your own education. Fund your freedom. Build with Bitcoin.
