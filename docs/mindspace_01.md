@@ -25,10 +25,11 @@
 
 ### GLYPH: AETH-Ø2  
 - **Meaning:** Ethical Autonomy through Heuristics  
-- **Diagram Placeholder:** `aeth-logic-diagram.png`  
+- **Diagram:** ![AETH-Ø2 Logic Diagram](./assets/aeth-logic-diagram.svg)  
 - **Logic Flow:**  
   - Input: `agent-state`  
   - Trigger: `signal-response`  
+  - Process: ETHOS-1 compliance logic
   - Output: `consensus-behavior`
 
 ---
