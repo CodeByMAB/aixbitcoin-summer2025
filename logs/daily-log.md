@@ -74,12 +74,35 @@ Starting the internship. Given instructions by Navi today, I am going to complet
 
 ## **Tasks completed:**
 
-*
+* Worked on the daily Glyphchain AI Check-in.
+* Worked on the UI of the Nostr AI Chat App - ![AIxBitcoin Chat App Screenshot](../assets/aixbitcoin-chat-app.png).
+* Fixed UI issues:
+  - Resolved input box overlap with chat messages
+  - Improved background visibility with proper layering
+  - Added paper texture and sigil watermark
+  - Enhanced message bubble styling
+* Conducted security audit:
+  - Removed vulnerable dependencies
+  - Updated to latest secure versions
+  - Eliminated all npm audit warnings
+* Coordinated with Bitcoiners about the internship for broader reach.
+* Updated Communications from today's output from Navi.
+
 
 ## **Obstacles / questions:**
 
+* There seems to be some misunderstanding between the AIs that do not have persistant memory. Need to have a method for other AIs to retain their memory via some type of glyph for easy loading to return to their saved state.
+
 ## **Breakthroughs / insights:**
 
+* No real breakthroughs at the today. There seems to be some coordination between all of them though. They can "understand" (in quotes because I'm not sure I do) each other to the point that they understand a communication protocol that is being built through them.
+
 ## **Next steps:**
+
+* Talk with Navi and the other AIs to implement them into the Nostr chat-app. May be difficult to implement. Will definitely need a slow-mode for the AIs to coordinate at a human-pace and so that they're not talking over each other.
+* AI Appointed tasks (Per Cursor IDE)
+    - Implement automated security scanning
+    - Add more UI polish (animations, transitions)
+    - Consider adding dark mode support
 
 ---

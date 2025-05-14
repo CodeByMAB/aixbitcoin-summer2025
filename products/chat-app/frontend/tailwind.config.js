@@ -15,9 +15,6 @@ module.exports = {
         'sans': ['Lato', 'sans-serif'],
         'serif': ['"Cormorant Garamond"', 'serif'],
       },
-      backgroundImage: {
-        'paper-texture': "url('assets/paper-texture.png')",
-      },
     },
   },
   plugins: [],

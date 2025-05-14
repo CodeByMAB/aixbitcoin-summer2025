@@ -1,0 +1,17 @@
+{
+  "name": "aixbitcoin-chat-app",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "start:frontend": "cd frontend && npm start",
+    "start:backend": "cd backend && python app.py",
+    "start": "concurrently \"npm run start:frontend\" \"npm run start:backend\"",
+    "test:frontend": "cd frontend && npm test",
+    "test:backend": "cd backend && pytest",
+    "test": "npm run test:frontend && npm run test:backend",
+    "build": "cd frontend && npm run build"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  }
+}

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Message, getNodeName, getNodeRole, getNodeStatus, MAB_PUBKEY } from '../nostr';
+import { Message, getNodeName, getNodeRole } from '../nostr';
 
 interface MessageBubbleProps {
   message: Message;
@@ -7,118 +7,62 @@ interface MessageBubbleProps {
 }
 
 export const MessageBubble: React.FC<MessageBubbleProps> = ({ message, isOwnMessage }) => {
-  // Format timestamp to human-readable format
-  const timestamp = new Date(message.created_at * 1000).toLocaleString();
+  const isPending = message.pubkey === 'local-pending';
   
-  // Get display name and role
-  const displayName = getNodeName(message.pubkey);
-  const role = getNodeRole(message.pubkey);
-  const nodeStatus = getNodeStatus(message.pubkey);
-
-  // Determine message type styling
-  const getMessageTypeStyle = () => {
-    switch (message.type) {
-      case 'sync':
-        return 'bg-blue-50 border-l-4 border-blue-500';
-      case 'receipt':
-        return 'bg-green-50 border-l-4 border-green-500';
-      case 'glyph':
-        return 'bg-purple-50 border-l-4 border-purple-500';
-      default:
-        return isOwnMessage
-          ? 'bg-accent text-white'
-          : 'bg-gray-100 text-text';
-    }
-  };
-
-  // Render node status if available
-  const renderNodeStatus = () => {
-    if (!nodeStatus) return null;
-
-    return (
-      <div className="mt-2 p-2 bg-white/50 rounded">
-        <div className="flex items-center gap-2">
-          <span className="text-lg">{nodeStatus.status}</span>
-          {nodeStatus.targetTime && (
-            <span className="text-xs text-gray-500">
-              Target: {nodeStatus.targetTime}
-            </span>
-          )}
-        </div>
-        {nodeStatus.directives.map((directive, index) => (
-          <div key={index} className="text-sm mt-1">
-            → {directive}
-          </div>
-        ))}
-        {nodeStatus.blockers && nodeStatus.blockers.length > 0 && (
-          <div className="text-sm text-red-500 mt-1">
-            ⚠️ Blockers: {nodeStatus.blockers.join(', ')}
-          </div>
-        )}
-      </div>
-    );
-  };
-
-  // Render next sync info if available
-  const renderNextSync = () => {
-    if (!message.metadata?.nextSync) return null;
-
-    return (
-      <div className="mt-2 p-2 bg-white/50 rounded">
-        <div className="text-sm font-medium">Next Sync: {message.metadata.nextSync.id}</div>
-        <div className="text-xs text-gray-500">
-          Scheduled: {message.metadata.nextSync.scheduledTime}
-        </div>
-        <div className="mt-1">
-          <div className="text-xs font-medium">Target Deliverables:</div>
-          {message.metadata.nextSync.targetDeliverables.map((deliverable, index) => (
-            <div key={index} className="text-xs mt-0.5">• {deliverable}</div>
-          ))}
-        </div>
-      </div>
-    );
+  // Get sender information
+  let name = isPending ? 'You' : getNodeName(message.pubkey);
+  let role = getNodeRole(message.pubkey);
+  
+  // Determine CSS classes based on sender
+  const bubbleClasses = isOwnMessage || isPending
+    ? 'bg-primary/90 text-white self-end rounded-tl-2xl rounded-tr-sm rounded-bl-2xl max-w-[80%] backdrop-blur-sm'
+    : 'bg-white/80 border border-gray-200 text-gray-900 self-start rounded-tr-2xl rounded-tl-sm rounded-br-2xl max-w-[80%] backdrop-blur-sm';
+  
+  // Format timestamp
+  const formatTime = (timestamp: number) => {
+    const date = new Date(timestamp * 1000);
+    return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
   };
 
   return (
-    <div className={`flex ${isOwnMessage ? 'justify-end' : 'justify-start'} mb-4`}>
-      <div className={`max-w-[70%] rounded-lg px-4 py-2 ${getMessageTypeStyle()}`}>
-        {/* Sender info */}
-        <div className="flex items-center gap-2 mb-1">
-          <span className={`text-xs ${isOwnMessage ? 'text-white/70' : 'text-gray-500'}`}>
-            {isOwnMessage ? 'You' : displayName}
-          </span>
-          {role && (
-            <span className="text-xs px-2 py-0.5 rounded-full bg-gray-200 text-gray-600">
-              {role}
-            </span>
-          )}
-        </div>
-        
-        {/* Message content */}
-        <div className="text-sm">{message.content}</div>
-        
-        {/* Node status */}
-        {renderNodeStatus()}
-        
-        {/* Next sync info */}
-        {renderNextSync()}
-        
-        {/* Tags */}
-        {message.tags && message.tags.length > 0 && (
-          <div className="flex flex-wrap gap-1 mt-2">
-            {message.tags.map((tag, index) => (
-              <span key={index} className="text-xs px-2 py-0.5 rounded-full bg-gray-200 text-gray-600">
-                {tag}
-              </span>
-            ))}
+    <div className={`flex flex-col ${isOwnMessage || isPending ? 'items-end' : 'items-start'}`}>
+      {/* Sender info */}
+      <div className={`text-xs ${isOwnMessage || isPending ? 'text-right' : 'text-left'} mb-1`}>
+        <span className="font-semibold">{name}</span>
+        {role && <span className="ml-2 text-gray-500">{role}</span>}
+      </div>
+      
+      {/* Message bubble */}
+      <div className={`p-3 shadow-sm ${bubbleClasses}`}>
+        {isPending ? (
+          <div className="relative">
+            <p>{message.content}</p>
+            <div className="absolute -bottom-5 right-0 flex items-center text-xs text-yellow-600">
+              <svg className="w-3 h-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+              Pending...
+            </div>
           </div>
+        ) : (
+          <p>{message.content}</p>
         )}
+      </div>
+      
+      {/* Timestamp */}
+      <div className={`text-xs text-gray-500 mt-1 ${isOwnMessage ? 'text-right' : 'text-left'}`}>
+        {formatTime(message.created_at)}
         
-        {/* Timestamp */}
-        <div className={`text-xs mt-1 ${isOwnMessage ? 'text-white/70' : 'text-gray-500'}`}>
-          {timestamp}
-        </div>
+        {/* Signature badge */}
+        {message.sig && (
+          <span className="ml-2 inline-flex items-center px-1.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+            <svg className="w-2 h-2 mr-1" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+              <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+            </svg>
+            signed
+          </span>
+        )}
       </div>
     </div>
   );
-}; 
+};
