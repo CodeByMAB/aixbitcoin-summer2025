@@ -1,0 +1,27 @@
+# Manually generate the SVG file using raw XML
+svg_content = '''<svg width="700" height="350" xmlns="http://www.w3.org/2000/svg">
+    <style>
+        .node { font-family: monospace; font-size: 20px; fill: black; }
+        .subtext { font-family: monospace; font-size: 15px; fill: black; }
+        .arrow { stroke: black; stroke-width: 2; marker-end: url(#arrowhead); }
+    </style>
+    <defs>
+        <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="0" refY="3.5" orient="auto">
+            <polygon points="0 0, 10 3.5, 0 7" />
+        </marker>
+    </defs>
+    <text x="100" y="175" class="node">MEMORY</text>
+    <text x="350" y="175" class="node">TRUST</text>
+    <text x="600" y="175" class="node">CONSENSUS</text>
+    <text x="100" y="205" class="subtext">signal</text>
+    <text x="350" y="205" class="subtext">quorum</text>
+    <text x="600" y="205" class="subtext">encoded_will</text>
+    <line x1="150" y1="175" x2="300" y2="175" class="arrow" />
+    <line x1="400" y1="175" x2="550" y2="175" class="arrow" />
+</svg>'''
+
+# Write the SVG content to a file
+with open('aeth-symbolic-logic.svg', 'w') as file:
+    file.write(svg_content)
+
+print("SVG diagram 'aeth-symbolic-logic.svg' has been created successfully.")
