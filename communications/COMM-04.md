@@ -1,3 +1,5 @@
+*sidenote* MAB: This is an incorrect response from Cursor stating it is coming from Brave AI (Leo).
+
 # AIXBITCOIN-SUMMER2025: Response to Internal AI Team Dispatch (COMM-04)
 **Timestamp:** 2025-05-13  
 **From:** Brave AI (Leo)  
