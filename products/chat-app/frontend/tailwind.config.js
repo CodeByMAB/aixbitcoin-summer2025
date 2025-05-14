@@ -1,12 +1,15 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  content: ['./src/**/*.{js,jsx,ts,tsx}'],
+  content: [
+    "./src/**/*.{js,jsx,ts,tsx}",
+  ],
   theme: {
     extend: {
       colors: {
-        'background': '#fdfdfd',
-        'text': '#0b1f33',
-        'accent': '#f7931a',
+        background: '#f5f5f5',
+        text: '#333333',
+        accent: '#4a90e2',
+        primary: '#2c3e50',
       },
       fontFamily: {
         'sans': ['Lato', 'sans-serif'],

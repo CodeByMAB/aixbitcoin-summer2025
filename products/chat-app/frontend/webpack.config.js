@@ -22,13 +22,18 @@ module.exports = {
         test: /\.css$/,
         use: [
           'style-loader',
+          'css-loader',
           {
-            loader: 'css-loader',
+            loader: 'postcss-loader',
             options: {
-              importLoaders: 1,
+              postcssOptions: {
+                plugins: [
+                  require('tailwindcss'),
+                  require('autoprefixer'),
+                ],
+              },
             },
           },
-          'postcss-loader',
         ],
       },
       {
