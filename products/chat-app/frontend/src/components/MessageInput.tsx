@@ -1,34 +1,35 @@
-import React from 'react';
-import { sendMessage } from '../nostr';
+import React, { useState } from 'react';
+import { useMessages } from '../context/MessageContext';
 
-interface MessageInputProps {
-  value: string;
-  onChange: (value: string) => void;
-  onSend: () => void;
-}
+const MessageInput: React.FC = () => {
+  const [message, setMessage] = useState("");
+  const { sendMessage } = useMessages();
 
-export const MessageInput: React.FC<MessageInputProps> = ({ value, onChange, onSend }) => {
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setMessage(e.target.value);
+  };
+
+  const handleSend = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!value.trim()) return;
+    if (!message.trim()) return;
+    
     try {
-      await sendMessage(value);
-      onChange('');
-      onSend();
+      await sendMessage(message);
+      setMessage("");
     } catch (error) {
       console.error('Error sending message:', error);
     }
   };
 
   return (
-    <form onSubmit={handleSubmit} className="fixed bottom-0 left-0 right-0 p-4 bg-background border-t border-gray-200">
+    <form onSubmit={handleSend} className="fixed bottom-0 left-0 right-0 p-4 bg-background border-t border-gray-200">
       <div className="flex gap-2 max-w-4xl mx-auto">
-        <input
-          type="text"
-          value={value}
-          onChange={(e) => onChange(e.target.value)}
+        <textarea
+          value={message}
+          onChange={handleChange}
           placeholder="Type your message..."
-          className="flex-1 px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:border-accent"
+          className="flex-1 px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:border-accent resize-none"
+          rows={3}
         />
         <button
           type="submit"
@@ -39,4 +40,6 @@ export const MessageInput: React.FC<MessageInputProps> = ({ value, onChange, onS
       </div>
     </form>
   );
-}; 
+};
+
+export default MessageInput; 

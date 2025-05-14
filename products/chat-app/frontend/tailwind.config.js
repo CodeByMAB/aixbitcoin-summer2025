@@ -13,7 +13,7 @@ module.exports = {
         'serif': ['"Cormorant Garamond"', 'serif'],
       },
       backgroundImage: {
-        'paper-texture': "url('/assets/paper-texture.png')",
+        'paper-texture': "url('assets/paper-texture.png')",
       },
     },
   },

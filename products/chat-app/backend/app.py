@@ -116,4 +116,5 @@ def get_messages():
         return jsonify({'error': str(e)}), 500
 
 if __name__ == '__main__':
-    app.run(debug=True, port=5000)
+    from config import DEBUG, PORT
+    app.run(debug=DEBUG, port=PORT)

@@ -6,4 +6,4 @@ NOSTR_PRIVATE_KEY = "stubbed_private_key"
 
 # Flask configuration
 DEBUG = True
-PORT = 5000
+PORT = 5001

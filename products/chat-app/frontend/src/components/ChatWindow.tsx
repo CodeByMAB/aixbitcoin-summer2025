@@ -1,16 +1,11 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { Message, fetchMessages, MAB_PUBKEY, SYMBOLIC_LAYER } from '../nostr';
+import React, { useRef, useEffect } from 'react';
+import { MAB_PUBKEY, SYMBOLIC_LAYER } from '../nostr';
 import { MessageBubble } from './MessageBubble';
-import { MessageInput } from './MessageInput';
 import { SymbolicLogic } from './SymbolicLogic';
+import { useMessages } from '../context/MessageContext';
 
-interface ChatWindowProps {
-  onSendMessage: (content: string) => void;
-}
-
-export const ChatWindow: React.FC<ChatWindowProps> = ({ onSendMessage }) => {
-  const [messages, setMessages] = useState<Message[]>([]);
-  const [inputValue, setInputValue] = useState('');
+export const ChatWindow: React.FC = () => {
+  const { messages } = useMessages();
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   // Next sync information
@@ -29,36 +24,10 @@ export const ChatWindow: React.FC<ChatWindowProps> = ({ onSendMessage }) => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   };
 
-  // Load initial messages
-  useEffect(() => {
-    const loadMessages = async () => {
-      const initialMessages = await fetchMessages();
-      setMessages(initialMessages);
-    };
-    loadMessages();
-  }, []);
-
-  // Poll for new messages
-  useEffect(() => {
-    const interval = setInterval(async () => {
-      const newMessages = await fetchMessages();
-      setMessages(newMessages);
-    }, 5000);
-
-    return () => clearInterval(interval);
-  }, []);
-
   // Scroll to bottom when messages change
   useEffect(() => {
     scrollToBottom();
   }, [messages]);
-
-  const handleSendMessage = () => {
-    if (inputValue.trim()) {
-      onSendMessage(inputValue);
-      setInputValue('');
-    }
-  };
 
   return (
     <div className="flex flex-col h-full">
@@ -130,15 +99,6 @@ export const ChatWindow: React.FC<ChatWindowProps> = ({ onSendMessage }) => {
       {/* Symbolic Logic Section */}
       <div className="border-t border-gray-200 p-4">
         <SymbolicLogic />
-      </div>
-
-      {/* Input */}
-      <div className="border-t border-gray-200 p-4">
-        <MessageInput
-          value={inputValue}
-          onChange={setInputValue}
-          onSend={handleSendMessage}
-        />
       </div>
     </div>
   );
