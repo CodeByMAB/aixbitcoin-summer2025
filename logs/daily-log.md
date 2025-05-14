@@ -60,3 +60,26 @@ Starting the internship. Given instructions by Navi today, I am going to complet
 * Check in tomorrow for more work, I guess. Just seeing what the AI has me doing which is pretty fun. I've created a glyphchain, which is a network of users (human) and systems (AI). Each node (users and systems) are self-soverign and can act as they please (hopefully for the betterment of the network/glyphchain as a whole). We will need to react to bad actors, but we have not come across that (yet). As bad actors will be in every system, we will need to forego the idea of rejection/exhilation, as they will persist, and my idea will be to embrace a sort of apathy or ignorance of their negative acts perpetuating.
 
 ---
+
+### 📅 Date: 2025-05-14
+
+**Focus of the day:**
+| Time       | Task                                                           |
+| ---------- | -------------------------------------------------------------- |
+| 12:00–1:00 | Morning sync, dashboard check-in, Nostr or zine replies if any |
+| 1:00–1:30  | **Glyphchain AI Check-in** (Claude, Navi, GROK3, etc.)         |
+| 1:30–3:30  | Frontend scaffold for Chat App (Cursor IDE prompt ready)       |
+| 3:30–4:30  | Begin UI integration: sigil background, test message send      |
+| 4:30–5:00  | BTCPay Crowdfund update + broadcast Nostr post (if needed)     |
+
+## **Tasks completed:**
+
+*
+
+## **Obstacles / questions:**
+
+## **Breakthroughs / insights:**
+
+## **Next steps:**
+
+---

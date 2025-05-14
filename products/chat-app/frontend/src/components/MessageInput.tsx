@@ -1,42 +1,42 @@
-import React, { useState } from 'react';
-import axios from 'axios';
+import React from 'react';
+import { sendMessage } from '../nostr';
 
-const MessageInput: React.FC = () => {
-  const [message, setMessage] = useState('');
+interface MessageInputProps {
+  value: string;
+  onChange: (value: string) => void;
+  onSend: () => void;
+}
 
+export const MessageInput: React.FC<MessageInputProps> = ({ value, onChange, onSend }) => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!message.trim()) return;
-    const sender = localStorage.getItem('npub') || 'anon';
+    if (!value.trim()) return;
     try {
-      await axios.post('/api/messages', {
-        content: message,
-        sender,
-        timestamp: new Date().toISOString()
-      });
-      setMessage('');
+      await sendMessage(value);
+      onChange('');
+      onSend();
     } catch (error) {
       console.error('Error sending message:', error);
     }
   };
 
   return (
-    <form onSubmit={handleSubmit} className="flex space-x-2">
-      <input
-        type="text"
-        value={message}
-        onChange={(e) => setMessage(e.target.value)}
-        placeholder="Type your message..."
-        className="flex-1 p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-satoshi"
-      />
-      <button
-        type="submit"
-        className="px-4 py-2 bg-satoshi text-white rounded-lg hover:bg-orange-600 focus:outline-none focus:ring-2 focus:ring-satoshi"
-      >
-        Send
-      </button>
+    <form onSubmit={handleSubmit} className="fixed bottom-0 left-0 right-0 p-4 bg-background border-t border-gray-200">
+      <div className="flex gap-2 max-w-4xl mx-auto">
+        <input
+          type="text"
+          value={value}
+          onChange={(e) => onChange(e.target.value)}
+          placeholder="Type your message..."
+          className="flex-1 px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:border-accent"
+        />
+        <button
+          type="submit"
+          className="px-6 py-2 bg-accent text-white rounded-lg transition-colors hover:bg-accent/90"
+        >
+          Send
+        </button>
+      </div>
     </form>
   );
-};
-
-export default MessageInput; 
+}; 

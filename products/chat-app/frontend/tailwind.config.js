@@ -1,18 +1,20 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  content: [
-    "./src/**/*.{js,jsx,ts,tsx}",
-  ],
+  content: ['./src/**/*.{js,jsx,ts,tsx}'],
   theme: {
     extend: {
       colors: {
-        satoshi: "#f7931a",
-        navy: "#0b1f33",
-        grain: "#fdfdfd"
+        'background': '#fdfdfd',
+        'text': '#0b1f33',
+        'accent': '#f7931a',
+      },
+      fontFamily: {
+        'sans': ['Lato', 'sans-serif'],
+        'serif': ['"Cormorant Garamond"', 'serif'],
       },
       backgroundImage: {
-        sigil: "url('/assets/the_seeking_blade_gold.png')"
-      }
+        'paper-texture': "url('/assets/paper-texture.png')",
+      },
     },
   },
   plugins: [],
