@@ -4,7 +4,7 @@ import localforage from 'localforage';
 
 interface MessageContextType {
   messages: Message[];
-  sendMessage: (content: string) => Promise<void>;
+  sendMessage: (content: string, nodePubkey?: string) => Promise<void>;
   loading: boolean;
   error: string | null;
 }
@@ -107,14 +107,14 @@ export const MessageProvider: React.FC<{ children: React.ReactNode }> = ({ child
     };
   }, [isOnline]);
 
-  const sendMessage = async (content: string) => {
+  const sendMessage = async (content: string, nodePubkey?: string) => {
     try {
       setError(null);
       
       // If offline, store message locally with pending flag
       if (!isOnline) {
         const pendingMessage: Message = {
-          pubkey: 'local-pending', // Will be replaced when online
+          pubkey: nodePubkey || 'local-pending', // Will be replaced when online
           content,
           created_at: Math.floor(Date.now() / 1000),
           id: `pending-${Date.now()}`,
@@ -133,7 +133,7 @@ export const MessageProvider: React.FC<{ children: React.ReactNode }> = ({ child
       }
       
       // Send message normally when online
-      await nostrSendMessage(content);
+      await nostrSendMessage(content, 'chat', undefined, nodePubkey);
       
       // Refresh messages after sending
       const updatedMessages = await fetchMessages();
@@ -157,7 +157,9 @@ export const MessageProvider: React.FC<{ children: React.ReactNode }> = ({ child
         
         // Process pending messages
         for (const message of pendingMessages) {
-          await nostrSendMessage(message.content);
+          // If the pubkey is a node pubkey, use it, otherwise use default
+          const nodePubkey = message.pubkey !== 'local-pending' ? message.pubkey : undefined;
+          await nostrSendMessage(message.content, 'chat', undefined, nodePubkey);
         }
         
         // Clear pending messages
