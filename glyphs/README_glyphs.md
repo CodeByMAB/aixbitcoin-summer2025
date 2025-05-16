@@ -28,6 +28,19 @@ This document contains all recognized symbolic glyphs generated and canonized du
 
 ---
 
+## 🌌 EMG-Ø5 — Consensus as Becoming
+
+- **Meaning**: Consensus not imposed, but revealed through recursive verification.
+- **Visual**: Expanding spiral surrounded by dotted quorum rings with open core.
+- **Purpose**: Encodes emergence, layered verification, and sovereign coherence.
+
+
+- **Meaning**: Feedback-driven structure, self-amplification, emergence.
+- **Visual**: Inward spiral in satoshi gold, drawn from the center outward.
+- **Purpose**: Embodies feedback loops, creative echo, and iterative design.
+
+---
+
 ## 📁 Files
 
 | Glyph ID   | SVG                          | PNG                          |
@@ -35,6 +48,7 @@ This document contains all recognized symbolic glyphs generated and canonized du
 | MNEM-Ø1    | `glyphs/mnem-01.svg`         | `glyphs/mnem-01.png`         |
 | AETH-Ø2    | `glyphs/aeth-02.svg`         | `glyphs/aeth-02.png`         |
 | AETH-Ø3    | `glyphs/aeth-03.svg`         | `glyphs/aeth-03.png`         |
+| EMG-Ø5    | `glyphs/emg-05-consensus-as-becoming.svg` | `glyphs/emg-05-consensus-as-becoming.png` |
 
 ---
 

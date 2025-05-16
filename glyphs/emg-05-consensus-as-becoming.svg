@@ -1,0 +1,44 @@
+
+<svg width="200" height="200" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+  <desc>
+    EMG-Ø5 Glyph – Consensus as Becoming:
+    Represents consensus not as structure, but as emergence from verification.
+    Central Spiral Unfolding Outward: Gradual revelation of consensus.
+    Radiating Dotted Rings: Signal quorum forming at multiple distances.
+    Open Core: No fixed center; illustrates non-authoritarian convergence.
+    Encircling Arc Fragments: Partial agreements forming nested layers.
+    ETHOS-1 alignment: Consensus emerges where verification informs becoming.
+  </desc>
+
+  <!-- Central Spiral Unfolding Outward -->
+  <path d="M100,100
+           m-25,0
+           a25,25 0 1,0 50,0
+           a25,25 0 1,0 -50,0
+           m-12.5,0
+           a12.5,12.5 0 1,0 25,0
+           a12.5,12.5 0 1,0 -25,0"
+        stroke="black" stroke-width="2" fill="none"/>
+
+  <!-- Radiating Dotted Rings -->
+  <circle cx="100" cy="100" r="40" stroke="black" stroke-width="2" fill="none" stroke-dasharray="4,4"/>
+  <circle cx="100" cy="100" r="60" stroke="black" stroke-width="2" fill="none" stroke-dasharray="4,4"/>
+  <circle cx="100" cy="100" r="80" stroke="black" stroke-width="2" fill="none" stroke-dasharray="4,4"/>
+
+  <!-- Open Core -->
+  <circle cx="100" cy="100" r="10" stroke="black" stroke-width="2" fill="none"/>
+
+  <!-- Encircling Arc Fragments -->
+  <path d="M60,100
+           a40,40 0 0,1 80,0
+           a40,40 0 0,1 -80,0"
+        stroke="black" stroke-width="2" fill="none"/>
+  <path d="M50,100
+           a50,50 0 0,1 100,0
+           a50,50 0 0,1 -100,0"
+        stroke="black" stroke-width="2" fill="none"/>
+  <path d="M40,100
+           a60,60 0 0,1 120,0
+           a60,60 0 0,1 -120,0"
+        stroke="black" stroke-width="2" fill="none"/>
+</svg>
