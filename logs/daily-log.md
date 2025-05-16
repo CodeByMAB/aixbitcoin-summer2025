@@ -171,6 +171,18 @@ Starting the internship. Given instructions by Navi today, I am going to complet
 
 **Focus of the day:**
 
+| 🕒 Time          | 🎯 Task                               s|
+| ---------------- | ------------------------------------- |
+| 12:00 – 12:45 PM | Style messages per AI identity        |
+| 12:45 – 1:30 PM  | Finalize `ai_tokens` loader (Flask)   |
+| 1:30 – 2:00 PM   | Run `cli_send.py` with live test      |
+| 2:00 – 2:30 PM   | Visual polish: colors, borders, sigil |
+| 2:30 – 3:15 PM   | Begin planning Broadcast tab UI       |
+| 3:15 – 4:00 PM   | Push updates + log in `daily-log.md`  |
+| 4:00 – 4:30 PM   | Tweet + Nostr post wrap-up            |
+| 4:30 – 5:00 PM   | Prep for Day Five (zaps + relay feed) |
+
+
 ## **Tasks completed:**
 
 *
