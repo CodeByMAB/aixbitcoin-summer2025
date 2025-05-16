@@ -1,19 +1,22 @@
 import React, { useRef, useEffect, useState } from 'react';
-import { MAB_PUBKEY, SYMBOLIC_LAYER } from '../nostr';
+import { SYMBOLIC_LAYER } from '../nostr';
 import { MessageBubble } from './MessageBubble';
 import { SymbolicLogic } from './SymbolicLogic';
 import { useMessages } from '../context/MessageContext';
 import { useAuth } from '../context/AuthContext';
+import { DEFAULT_USER } from '../nostr';
 
 export const ChatWindow: React.FC = () => {
   const { messages, loading, error } = useMessages();
-  const { isAuthenticated } = useAuth();
+  const { isAuthenticated, currentUser, login, logout } = useAuth();
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const messagesContainerRef = useRef<HTMLDivElement>(null);
   const [isOnline, setIsOnline] = useState<boolean>(navigator.onLine);
   const [autoScroll, setAutoScroll] = useState<boolean>(true);
   const [unreadCount, setUnreadCount] = useState<number>(0);
   const [showAdvancedInfo, setShowAdvancedInfo] = useState<boolean>(false);
+  const [showSymbolicLogic, setShowSymbolicLogic] = useState<boolean>(false);
+  const [showGlyphchain, setShowGlyphchain] = useState<boolean>(false);
   
   // Next sync information
   const nextSync = {
@@ -121,7 +124,7 @@ export const ChatWindow: React.FC = () => {
   };
 
   return (
-    <div className="flex flex-col h-full bg-white/70 backdrop-blur-sm">
+    <div className="flex flex-col h-full bg-transparent">
       {/* Header */}
       <div className="bg-primary/80 text-white p-4 backdrop-blur-sm">
         <h2 className="text-xl font-bold">AIxBitcoin Chat</h2>
@@ -131,11 +134,11 @@ export const ChatWindow: React.FC = () => {
             <div className={`px-2 py-1 rounded-full text-xs ${isOnline ? 'bg-green-500' : 'bg-yellow-500'}`}>
               {isOnline ? 'Online' : 'Offline'}
             </div>
-            <button 
-              onClick={toggleAdvancedInfo}
-              className="text-xs bg-white/20 hover:bg-white/30 px-2 py-1 rounded transition-colors"
+            <button
+              onClick={() => setShowAdvancedInfo(!showAdvancedInfo)}
+              className="text-xs px-2 py-1 rounded transition-colors"
             >
-              {showAdvancedInfo ? 'Hide Details' : 'Show Details'}
+              {showAdvancedInfo ? 'Hide Advanced Info' : 'Show Advanced Info'}
             </button>
           </div>
         </div>
@@ -144,7 +147,7 @@ export const ChatWindow: React.FC = () => {
       {/* Auth prompt (only shown if not authenticated) */}
       {!isAuthenticated && (
         <div className="bg-blue-50 p-4 text-center">
-          <p className="text-blue-800">Connect with your Nostr extension to start chatting with your sovereign identity</p>
+          <p className="text-blue-800">Click Login to start chatting with your sovereign identity</p>
         </div>
       )}
 
@@ -218,7 +221,7 @@ export const ChatWindow: React.FC = () => {
       {/* Messages */}
       <div 
         ref={messagesContainerRef}
-        className="flex-1 overflow-y-auto p-4 pb-28 space-y-4 relative bg-white/50 backdrop-blur-sm"
+        className="flex-1 overflow-y-auto"
       >
         {/* Show empty state message only on initial load, not during refresh */}
         {messages.length === 0 ? (
@@ -230,7 +233,7 @@ export const ChatWindow: React.FC = () => {
             <MessageBubble
               key={message.id || index}
               message={message}
-              isOwnMessage={message.pubkey === MAB_PUBKEY}
+              isOwnMessage={message.pubkey === currentUser?.pubkey}
             />
           ))
         )}
@@ -255,8 +258,22 @@ export const ChatWindow: React.FC = () => {
 
       {/* Symbolic Logic Section - only visible when toggled on */}
       {showAdvancedInfo && (
-        <div className="border-t border-gray-200 p-4 bg-white/70 backdrop-blur-sm">
+        <div className="border-t border-gray-200 p-4 bg-transparent">
           <SymbolicLogic />
+        </div>
+      )}
+
+      {/* Symbolic Logic Section - only visible when toggled on */}
+      {showSymbolicLogic && (
+        <div className="border-t border-gray-200 p-4 bg-transparent">
+          <SymbolicLogic />
+        </div>
+      )}
+
+      {/* Glyphchain Section - only visible when toggled on */}
+      {showGlyphchain && (
+        <div className="border-t border-gray-200 p-4 bg-transparent">
+          {/* Glyphchain content */}
         </div>
       )}
     </div>

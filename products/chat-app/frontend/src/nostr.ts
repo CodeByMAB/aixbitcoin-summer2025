@@ -1,5 +1,8 @@
-// Sovereign identity for MAB
-export const MAB_PUBKEY = "npub1z6uxwev8c8wauc9j8vnjq5gj5n2lpnnm6pq57e68d40w59gz4umqzntvyx";
+// Default user keys
+export const DEFAULT_USER = {
+  npub: 'npub1qpxxvfcpvh0ywzkhzurqvnra85afdtt73ykr92ha99e32lu8dnyspg2mfp',
+  nsec: 'nsec1ljfky8vp5srdnsz9d0eufqjl26wv4znslg9r3wzvxnmxkq4tprlss8w0jc'
+};
 
 // WebSocket connection (will be used later)
 let relayConnection: WebSocket | null = null;
@@ -175,6 +178,128 @@ export const NODE_PUBKEYS: Record<string, GlyphchainNode> = {
   }
 };
 
+// User profile interface
+export interface UserProfile {
+  pubkey: string;
+  name?: string;
+  displayName?: string;
+  picture?: string;
+  about?: string;
+  nip05?: string;
+  lud16?: string;
+  banner?: string;
+  website?: string;
+  loaded: boolean;
+}
+
+// Cache for user profiles to avoid repeated fetches
+const profileCache: Record<string, UserProfile> = {};
+
+// Helper to get profile picture
+export const getProfilePicture = (pubkey: string): string | undefined => {
+  return profileCache[pubkey]?.picture;
+};
+
+// Fetch user profile from relays or NIP-05 identifier
+export const fetchUserProfile = async (pubkey: string): Promise<UserProfile> => {
+  // Return from cache if available
+  if (profileCache[pubkey] && profileCache[pubkey].loaded) {
+    return profileCache[pubkey];
+  }
+  
+  // Initialize with defaults
+  if (!profileCache[pubkey]) {
+    profileCache[pubkey] = {
+      pubkey,
+      loaded: false
+    };
+  }
+  
+  try {
+    // Try to get profile from NIP-07 extension
+    if (window.nostr) {
+      try {
+        // Create a subscription for kind 0 (metadata) events for this pubkey
+        const filter = { kinds: [0], authors: [pubkey] };
+        
+        // Try to get profiles from relays
+        const relays = await window.nostr.getRelays();
+        const relayUrls = Object.keys(relays);
+        
+        if (relayUrls.length > 0) {
+          // Choose a random relay to query
+          const relay = relayUrls[Math.floor(Math.random() * relayUrls.length)];
+          const socket = new WebSocket(relay);
+          
+          return new Promise((resolve) => {
+            let timeoutId: number;
+            
+            socket.onopen = () => {
+              // Set timeout for relay response
+              timeoutId = window.setTimeout(() => {
+                socket.close();
+                profileCache[pubkey].loaded = true;
+                resolve(profileCache[pubkey]);
+              }, 5000);
+              
+              // Send request to relay
+              const requestId = Math.random().toString(36).substring(2, 15);
+              socket.send(JSON.stringify(["REQ", requestId, filter]));
+            };
+            
+            socket.onmessage = (e) => {
+              try {
+                const [type, subId, event] = JSON.parse(e.data);
+                if (type === "EVENT" && event.kind === 0 && event.pubkey === pubkey) {
+                  const content = JSON.parse(event.content);
+                  
+                  // Update cache with profile data
+                  profileCache[pubkey] = {
+                    ...profileCache[pubkey],
+                    name: content.name,
+                    displayName: content.display_name || content.displayName,
+                    picture: content.picture,
+                    about: content.about,
+                    nip05: content.nip05,
+                    lud16: content.lud16,
+                    banner: content.banner,
+                    website: content.website,
+                    loaded: true
+                  };
+                  
+                  // Clear timeout and close socket
+                  clearTimeout(timeoutId);
+                  socket.close();
+                  resolve(profileCache[pubkey]);
+                }
+              } catch (err) {
+                console.error("Error parsing profile event:", err);
+              }
+            };
+            
+            socket.onerror = () => {
+              socket.close();
+              clearTimeout(timeoutId);
+              profileCache[pubkey].loaded = true;
+              resolve(profileCache[pubkey]);
+            };
+          });
+        }
+      } catch (err) {
+        console.error('Failed to get profile from NIP-07 extension:', err);
+      }
+    }
+    
+    // If we reach here, we couldn't get the profile from extension
+    profileCache[pubkey].loaded = true;
+    return profileCache[pubkey];
+  } catch (error) {
+    console.error('Error fetching user profile:', error);
+    profileCache[pubkey].loaded = true;
+    return profileCache[pubkey];
+  }
+};
+
 // Message interface matching backend format
 export interface Message {
   pubkey: string;
@@ -230,38 +355,13 @@ export const fetchMessages = async (): Promise<Message[]> => {
   }
 };
 
-// Send message to backend with optional authentication
+// Send message to backend
 export const sendMessage = async (
   content: string, 
   type: Message['type'] = 'chat',
-  metadata?: Message['metadata'],
-  userPubkey?: string
+  metadata?: Message['metadata']
 ): Promise<void> => {
   try {
-    // Get pubkey from NIP-07 extension if available
-    let pubkey = userPubkey || MAB_PUBKEY;
-    let signature = undefined;
-    
-    // Try to use NIP-07 extension to sign if available
-    if (window.nostr) {
-      try {
-        const event = {
-          kind: 1,
-          created_at: Math.floor(Date.now() / 1000),
-          tags: [],
-          content
-        };
-        
-        // Sign with NIP-07 extension
-        const signedEvent = await window.nostr.signEvent(event);
-        pubkey = signedEvent.pubkey;
-        signature = signedEvent.sig;
-      } catch (err) {
-        console.error('Failed to sign with NIP-07 extension:', err);
-        // Fallback to using pubkey without signature
-      }
-    }
-    
     const response = await fetch(`${API_BASE}/api/messages`, {
       method: 'POST',
       headers: {
@@ -269,10 +369,9 @@ export const sendMessage = async (
       },
       body: JSON.stringify({
         content,
-        pubkey,
+        pubkey: window.nostr ? await window.nostr.getPublicKey() : undefined,
         created_at: Math.floor(Date.now() / 1000),
         type,
-        sig: signature,
         tags: type === 'sync' || type === 'receipt' 
           ? ['#sovereignty', '#bitcoin', '#agent_alignment', '#ETHOS1'] 
           : undefined,
