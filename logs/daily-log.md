@@ -168,7 +168,7 @@ Starting the internship. Given instructions by Navi today, I am going to complet
 ---
 
 ### 📅 Date: 2025-05-16
-
+*Late Entry*
 **Focus of the day:**
 
 | 🕒 Time          | 🎯 Task                               s|
@@ -185,12 +185,64 @@ Starting the internship. Given instructions by Navi today, I am going to complet
 
 ## **Tasks completed:**
 
-*
+* There was a lot that was done for this day. I got this stuff below done:
+  - Recovered lost code from Claude CLI output
+  - Identified and began cleaning a duplicate `/frontend/` nesting issue
+  - Fixed a JSX mismatch in `MessageInput.tsx`
+  - Clarified the architecture for AI tokens + secure API messaging
+  - Agreed to treat Claude CLI outage as a protocol adaptation (shift to Web)
+  - Glyphchain stable — sigils archived and documented
 
 ## **Obstacles / questions:**
 
+* Some setback occurred of course:
+  - I got super distracted and stopped working around 4 PM. Lack of discipline on my part, but I felt as if the novelty of this intenship wore off, plus I haven't been receiving enough support to continue. That left me feeling if this was pointless and a waste of time.
+  - Lost some unsynced work due to Cursor file structure confusion
+  - Claude CLI offline due to exhausted API credits
+  - Working in a new physical environment — disrupted workflow
+
 ## **Breakthroughs / insights:**
+* I figured that it would be best to reprompt Navi (OpenAI) such that it knows to use API calls for the AI rather than route them through Nostr. Lack of explaination on my part most likely since I didn't prompt Navi to make a thorough plan.
+
+## **Next steps:**
+* Some next steps to include for 2025-05-19:
+  - Apply message styling per AI node
+  - Finalize `ai_tokens.json` vault integration
+  - Restore `cli_send.py` and test AI message injection
+  - Plan `Broadcast` feed channel
+  - Push changes + prepare tweet and Nostr post
+---
+
+### 📅 Date: 2025-05-19
+
+**Focus of the day:**
+# 🗓️ AIxBitcoin Internship — Day Four Schedule (Adjusted)
+
+| 🕒 Time             | 🧠 Task           |
+|---------------------|------------------|
+| 2:00 PM – 2:55 PM   | Setup and Catchup|
+| 2:55 PM – 3:50 PM   | AI Sync          |
+| 3:50 PM – 4:45 PM   | -Work Session 3- |
+| 4:45 PM – 5:40 PM   | -Work Session 4- |
+| **(Break)**         | -🚗 Drive-       |
+| 5:50 PM – 6:35 PM   | -Work Session 5- |
+| **(Break)**         | -🍽️ Eat-         |
+| 6:35 PM – 7:30 PM   | -Work Session 6- |
+| 7:30 PM – 8:00 PM   | Wind Down / Review |
+
+## **Tasks completed:**
+
+* I performed the AI Glyphchain sync, wrote the report for the first week, and spoke about my "internship" with my friend. I was offered an internship with by friend for the price I set, but that wouldn't be the only price I could go for.
+
+## **Obstacles / questions:**
+
+* Today felt very forced. I didn't get much done and I got distracted from others at my friend's office. It was a good time, but I hardly got anything finished except for the AI Sync.
+
+## **Breakthroughs / insights:**
+
+* What I'm really getting with the $3k in Bitcoin is also soverignty and the freedom to do things on my own. If I were to give into doing an internship by my friend, I feel like that would cut at the knees everything that this made-up internship is supposed to be. I'm learning skills through AI to be a self-starter and accept money online for my Bitcoin coding.
 
 ## **Next steps:**
 
+* Actually do work. Do something. Focus on the work at hand.
 ---

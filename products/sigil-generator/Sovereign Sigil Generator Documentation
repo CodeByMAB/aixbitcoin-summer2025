@@ -1,0 +1,145 @@
+# Sovereign Sigil Generator
+
+A Bitcoin-native AI sigil generator that creates personalized magical sigils based on user intentions, with integrated Lightning payments through BTCPay Server.
+
+## Overview
+
+This component follows the sovereignty-first principles of the AIxBitcoin-Summer2025 internship by:
+
+1. Using self-hosted AI (LLaMA3) for sigil generation
+2. Monetizing the tool with Bitcoin payments
+3. Preserving user sovereignty with optional Nostr identity
+4. Following the Value-for-Value (v4v) model
+
+## Architecture
+
+```
+Sigil Generator
+│
+├── Backend (Flask API)
+│   ├── Sigil Generation Engine (LLaMA3)
+│   ├── BTCPay Server Integration
+│   ├── Webhook Handler for Payments
+│   └── Status Checking Endpoints
+│
+└── Frontend (React)
+    ├── Sigil Request Form
+    ├── Payment Processing
+    ├── Nostr Identity Integration
+    └── Sigil Display Component
+```
+
+## Features
+
+- **Sovereignty-First Design**: All processing is done locally with no dependence on centralized APIs
+- **Value-for-Value Model**: Users pay for sigils with Bitcoin/Lightning
+- **Tiered Pricing**: Basic, Extended, and Premium tiers with different sats amounts
+- **Nostr Integration**: Users can associate sigils with their Nostr identity
+- **Detailed Interpretations**: AI provides rich context and meaning for each sigil
+
+## Technical Implementation
+
+### Backend (Flask)
+
+The Flask backend handles:
+
+1. Request processing and validation
+2. BTCPay Server invoice creation
+3. Payment verification via webhooks
+4. LLaMA3 model interactions for sigil generation
+5. Status tracking for sigil requests
+
+### Frontend (React)
+
+The React component provides:
+
+1. User-friendly interface for creating sigil requests
+2. Payment QR code display
+3. Status checking and updates
+4. Nostr identity integration (optional)
+5. Sigil display and interpretation
+
+## Integration Points
+
+### BTCPay Server
+
+This component integrates with BTCPay Server for Lightning Network payments:
+
+1. **Invoice Creation**: The backend creates invoices via the BTCPay API
+2. **Payment Verification**: Webhooks inform the application when payments are received
+3. **Payment Links**: Users receive checkout links to complete payments
+
+## Nostr Integration
+
+The Sigil Generator includes comprehensive Nostr integration:
+
+1. **User Authentication**:
+   - NIP-07 browser extension support (Alby, nos2x, etc.)
+   - Manual npub entry for users without extensions
+   - Profile data retrieval and display
+
+2. **Identity Features**:
+   - User profiles linked to sigil creations
+   - Identity verification via NIP-05 
+   - Profile information display
+
+3. **Social Sharing**:
+   - Share completed sigils to Nostr feeds
+   - Option to auto-share when sigil is completed
+   - Custom note content with sigil details
+
+4. **Components**:
+   - `NostrLoginButton`: Reusable component for NIP-07 authentication
+   - `NostrProfileCard`: Display user profile with recent activity
+   - Full integration with nostr-tools and nostr-react libraries
+
+### Local LLaMA Model
+
+The LLaMA3 model runs locally for sovereignty and provides:
+
+1. Detailed sigil descriptions based on user intentions
+2. Symbolic meaning interpretations
+3. Color schemes and visual elements
+
+## Setup Instructions
+
+### Backend Requirements
+
+1. Python 3.9+
+2. Flask and dependencies (see requirements.txt)
+3. LLaMA3 model (8B or 70B parameter version)
+4. BTCPay Server instance
+
+### Environment Variables
+
+```
+BTCPAY_SERVER_URL=https://your-btcpay-server.com
+BTCPAY_API_KEY=your-api-key
+BTCPAY_STORE_ID=your-store-id
+BTCPAY_WEBHOOK_SECRET=your-webhook-secret
+LLAMA_MODEL_PATH=models/llama-3-8b-instruct.Q4_K_M.gguf
+```
+
+### Frontend Setup
+
+1. Install in your React project: `npm install react-qr-code nostr-react nostr-tools`
+2. Set the API base URL: `REACT_APP_API_BASE_URL=http://localhost:5000/api`
+
+## Future Enhancements
+
+1. **Image Generation**: Integrate with stable diffusion models to create visual sigils
+2. **Sigil Collections**: Allow users to save and organize multiple sigils
+3. **Nostr Publishing**: Share sigils directly to Nostr feeds
+4. **Collaborative Sigils**: Allow multiple users to co-create sigils with split payments
+
+## Contribute
+
+This component is part of the AIxBitcoin-Summer2025 internship. Contributions are welcome!
+
+1. **Bug Reports**: Open an issue describing the problem
+2. **Feature Requests**: Submit an issue with the enhancement tag
+3. **Code Contributions**: Fork the repo and submit a pull request
+
+## License
+
+MIT License - Open source and sovereign
