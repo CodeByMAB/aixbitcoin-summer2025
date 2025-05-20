@@ -10,6 +10,13 @@ import re
 app = Flask(__name__)
 CORS(app)  # Enable CORS for all routes
 
+with open("ai_tokens.json", "r") as f:
+    ALLOWED_AI_TOKENS = json.load(f)
+
+# Simple rate limiter
+last_sent_time = {}
+SLOWMODE_SECONDS = 10
+
 class NostrEvent:
     """Stub class to simulate a Nostr event"""
     def __init__(self, content, pubkey, created_at, sig=None, tags=None, event_type="chat", metadata=None):
@@ -107,6 +114,20 @@ def is_valid_pubkey(pubkey):
 
 @app.route('/api/messages', methods=['POST'])
 def post_message():
+    auth_header = request.headers.get("Authorization")
+    if not auth_header or not auth_header.startswith("Bearer "):
+        return jsonify({"error": "Missing or invalid token"}), 403
+
+    token = auth_header.split(" ")[1]
+    sender = ALLOWED_AI_TOKENS.get(token)
+    if not sender:
+        return jsonify({"error": "Unauthorized"}), 403
+
+    now = datetime.utcnow().timestamp()
+    if token in last_sent_time and now - last_sent_time[token] < SLOWMODE_SECONDS:
+        return jsonify({"error": "Rate limit"}), 429
+    last_sent_time[token] = now
+
     try:
         data = request.get_json()
         
